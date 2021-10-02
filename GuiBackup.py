@@ -2,7 +2,7 @@ from Ip import ip
 from tkinter import *
 from tkinter.filedialog import askopenfile
 from Frame import frame
-from Maradona import maradona as sniffer
+from Maradona import maradona as sniffer, morisiSend
 import os
 LINE = "\n-----------------------------------------------------------------------------\n"
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -56,7 +56,7 @@ class GUI(Frame):
         toolsMenu.add_command(label="Lookup RDNS", command=self.ext_file)
         toolsMenu.add_command(label="NOT WORKING Toggle Continuous Monitoring Mode", command = self.nof)
         toolsMenu.add_command(label="Clear TB", command = self.clear)
-        
+        toolsMenu.add_command(label = "Send PKT", command= self.morisi)
         #Net menu
         netMenu = Menu(menubar, tearoff = 0)
         netMenu.add_command(label="IP Decode", command=self.ipdecode)
@@ -180,4 +180,14 @@ class GUI(Frame):
         rt = self.packetTextbox.get("1.0", END)
         res = ip(rt).ip_decode_manual()
         self.resultTextbox.insert("1.0",res)
+    
+    def morisi(self): 
+        try:
+            morisiSend(self,self.packetTextbox.get("1.0",END))
+        except ValueError:
+            self.packetTextbox.insert("1.0","Write a frame here!")
+        self.resultTextbox.delete("1.0", END)
+        self.writePacketInFile()
+        self.resultTextbox.insert("1.0", frame(FRAMEFILE).printInfoFrame())
+
         
