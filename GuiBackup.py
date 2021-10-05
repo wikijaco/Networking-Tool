@@ -2,7 +2,7 @@ from Ip import ip
 from tkinter import *
 from tkinter.filedialog import askopenfile
 from Frame import frame
-from Maradona import maradona as sniffer, morisiSend
+import Maradona
 import os
 LINE = "\n-----------------------------------------------------------------------------\n"
 THIS_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -137,7 +137,7 @@ class GUI(Frame):
         #stampa il pacchetto sniffato dallo sniffatore di pacchetti
         self.clear()
         try:
-            self.packetTextbox.insert("1.0", sniffer()) #same as file_decode(), but writes result of sniffer() on tBox
+            self.packetTextbox.insert("1.0", Maradona.maradona()) #same as file_decode(), but writes result of sniffer() on tBox
         except RuntimeError:
             self.clear()
             self.packetTextbox.insert("1.0","WINPCAP/NPCAP IS NOT INSTALLED \n you must install one to have network sniffing")
@@ -170,7 +170,7 @@ class GUI(Frame):
         ENABLE_CMM = True
         while(ENABLE_CMM):
             self.packetTextbox.delete("1.0", END)
-            self.packetTextbox.insert("1.0", sniffer()) #same as file_decode(), but writes result of sniffer() on tBox
+            self.packetTextbox.insert("1.0", Maradona.maradona()) #same as file_decode(), but writes result of sniffer() on tBox
             self.writePacketInFile() #writes tBox on file
             self.resultTextbox.delete("1.0", END)
             self.resultTextbox.insert("1.0", frame(FRAMEFILE).printInfoFrame())
@@ -183,7 +183,7 @@ class GUI(Frame):
     
     def morisi(self): 
         try:
-            morisiSend(self,self.packetTextbox.get("1.0",END))
+            Maradona.morisiSend(self,self.packetTextbox.get("1.0",END))
         except ValueError:
             self.packetTextbox.insert("1.0","Write a frame here!")
         self.resultTextbox.delete("1.0", END)

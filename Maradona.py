@@ -41,15 +41,10 @@ def maradona():             ##Ugolotti 2h, Bonati 3h, (Mostly R&D e Debug)
     return " ".join(final_packet)  # builds valid string
     
 
-def morisiSend(self, pkt: str):#famo opzione per cambiare mac ???????????? cerca pure io smadonno per fargli sendare la stringa ok
-    #ma raw() assembla il pacchetto a partire da hexdump? non capisco se crea da hex e returna un oggetto o ppure il contrario
-#enzomma abbiamo la stringa e la vogliamo mandare via come pacchhetto al massimo usiamo Socket()
+def morisiSend(self, pkt: str):
     pkt = Packet(bytes(pkt,"UTF-8"))
     #print(pkt)
     #print(conf.iface)
     #print(psutil.net_if_addrs())
-    sendp(pkt,iface= "Ethernet") #funziona
- #secondo me ci conviene creare altro file un .pcap? o un altro txt? secondo me meglio creare un .pcap perche lo supporta nativo ma preferisco fare al volo non so scelga lei io provo una cosa off ok
-
-#ok dentro entra come stringa nel sender? in teoria va messa nella textbox in alto, lo passa alla funz come strina e li lo assembla e lo manda ma non so se lo puo mandare come str no ok
-
+    send(pkt,iface= "Ethernet") #funziona
+ 
