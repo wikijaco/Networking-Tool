@@ -1,3 +1,6 @@
+from ipdict import ipdict
+
+
 class frame:
     
     '''
@@ -39,6 +42,7 @@ class frame:
             "06"   : "IPv4",
             "42"   : "STP"
             }
+            
         self.__fgetFrame() #constructor, initializes attributes and calls private mehtod __fgetframe()
 
     """
@@ -290,7 +294,10 @@ class frame:
 
         
         retstr = "Frame control: "
-        buf = int("".join(self.getFCwfield()),16)
+        try:
+            buf = int("".join(self.getFCwfield()),16)
+        except:
+            retstr = "NOT a Valid Packet"
         retstr += str(bin(buf)) 
         retstr += " Type: "
         if (int(self.getFCwfield()[0],base = 16) <= 0x83) and (int(self.getFCwfield()[0],base = 16) >= 0x80):
@@ -323,21 +330,48 @@ class frame:
 
 
 #TODO interlink suppoer, non beacon FB support
-'''
-      
-TDS FDS 
-pg68n1
-A->B
-    A -> AP 1 0
-    AP -> B 0 1
-C->A
-    C -> AP 1 0
-    AP -> A 0 1
 
-A -> B
-    A -> AP 1 0
-    AP -> S ///
-    S -> AP2 ///
-    AP2 -> B 0 1
+##level 3 update
 
-'''
+    def getFlg(self):
+        byte = self.buffered_frame[21]
+        match byte:
+                case "60":
+                    return "0x60, reserved bit"
+                case "40":
+                    return "0x40, Don't Fragment"
+                case "20":
+                    return "0x20, More Fragments"
+
+    def getIPvLen(self):
+        byte = int(self.buffered_frame[14])
+        len = byte % 10
+        ipv = byte // 10
+        return "IPv: "+ipv+ ", Header len: "+ len*4
+    
+    def DSF():
+        return #TODO
+
+    def getID(self):
+        return self.buffered_frame[18:20]
+
+    def getOffset(self):
+        return self.buffered_frame[20:22]
+    
+    def getTTl(self):
+        return self.buffered_frame[22]
+    
+    def getProtocol(self):
+        return ipdict.IPdic(int(self.buffered_frame[23]))
+    
+    def getPorts(self):
+        return "Source Port: "+ int(self.buffered_frame[32:34]) + "Destination Port: " + int(self.buffered_frame[36:38])
+
+
+
+    '''
+    DSF
+    checksum
+    checksum?
+    '''
+

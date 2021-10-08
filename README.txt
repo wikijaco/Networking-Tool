@@ -13,7 +13,7 @@ Features:
 Usage:
     Run the program with Main.py or dist/Main.exe, pick frame source from dropdown menu (open)
     Every module and dependency should be installed automatically by SystemIncluder.py, 
-    TO ENABLE THE PACKET SNIFFING FEATURE WINPCAP MUST BE INSTALLED.
+    TO ENABLE THE PACKET SNIFFING FEATURE WINPCAP/NPCAP MUST BE INSTALLED.
 
     Written in Python 3.9
 
