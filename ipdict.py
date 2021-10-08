@@ -1,5 +1,6 @@
 class ipdict:
-    def __init__(self):
+    def __init__(self,num):
+        self.num = num
         self.IPdict = {
          0	:"HOPOPT",
         1	:"ICMP",
@@ -150,6 +151,6 @@ class ipdict:
 
         }
 
-    def IPdic(self,num : int):
-        return self.IPdict[num] + "("+ num +")"
+    def IPdic(self):
+        return self.IPdict[self.num] + "("+ str(self.num) +")"
         

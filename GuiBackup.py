@@ -1,3 +1,4 @@
+from scapy.modules.six import b
 from Ip import ip
 from tkinter import *
 from tkinter.filedialog import askopenfile
@@ -10,6 +11,7 @@ FRAMEFILE = os.path.join(THIS_FOLDER, 'frame.txt')
 LOGFILE = os.path.join(THIS_FOLDER, 'log.txt')
 HELP = os.path.join(THIS_FOLDER, 'README.txt')
 ENABLE_CMM = False
+ENABLE_IPV4 = False
 
 class GUI(Frame):
     def __init__(self, master = None):
@@ -189,5 +191,9 @@ class GUI(Frame):
         self.resultTextbox.delete("1.0", END)
         self.writePacketInFile()
         self.resultTextbox.insert("1.0", frame(FRAMEFILE).printInfoFrame())
+
+
+       
+            
 
         

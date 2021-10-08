@@ -132,7 +132,7 @@ class frame:
             else:
                 return retStr + " Multicast.Global" #if all else is false, mac address must be multicast.global
         except ValueError:
-            return "Not a valid packet!"
+            return "Not a valid packet! 2"
     
     """
     Decode LLC 
@@ -171,6 +171,8 @@ class frame:
                     retStr += "Packet is of type:"+ self.etherDict["".join(DSAP)]+ "\nWith DSAP:"+ DSAP #not snap, looks for correspondence in dict and also prints dsap
                 except KeyError:
                     retStr += "Packet is of type: "+ "UNKNOWN"+ "\nWith DSAP:"+ DSAP #if not in dict
+
+                
                 retStr += "Frame is of Len:" + length #adds length 
                 return retStr
     
@@ -191,15 +193,23 @@ class frame:
     AUTHORS: Ugolotti 
     '''
     def printInfoFrame(self):
-        try:
+       # try:
+            
             retStr = "\n"
             retStr += "Macaddr.dst: " + self.printMac(self.getDestMac())
             retStr += "\nMacaddr.src: " + self.printMac(self.getSrcMac())
             retStr += self.decodeLLC()
+            retStr += "Flags: "+self.getFlg()
+            retStr += "Fragment Offset: "+self.getOffset()
+            retStr += self.getIPvLen()
+            retStr += "Protocol: "+ self.getProtocol()
+            retStr += "TTL: "+ self.getTTl()
+            retStr += "ID" + self.getID()
+            retStr += "Ports: " + self.getPorts()
             retStr += "\nTotal Size:  " + str(self.checkFrameLen())
-        except TypeError or IndexError:
-            return "Not a valid packet!"
-        return retStr
+        #except TypeError or IndexError:
+        #    return "Not a valid packet!"
+            return retStr
     
     
     #wifi, frame body resolution is only valid for beacon frames for now
@@ -335,37 +345,41 @@ class frame:
 
     def getFlg(self):
         byte = self.buffered_frame[21]
+        print (byte)
         match byte:
                 case "60":
-                    return "0x60, reserved bit"
+                    return "0x60, reserved bit\n"
                 case "40":
-                    return "0x40, Don't Fragment"
+                    return "0x40, Don't Fragment\n"
                 case "20":
-                    return "0x20, More Fragments"
+                    return "0x20, More Fragments\n"
+                case "00":
+                     return "No flag set\n"
+                
 
     def getIPvLen(self):
         byte = int(self.buffered_frame[14])
         len = byte % 10
         ipv = byte // 10
-        return "IPv: "+ipv+ ", Header len: "+ len*4
+        return "IPv: "+ str(ipv) + ", Header len: "+ str(len*4) +"\n"
     
     def DSF():
         return #TODO
 
     def getID(self):
-        return self.buffered_frame[18:20]
+        return "".join(self.buffered_frame[18:20]) + "\n"
 
     def getOffset(self):
-        return self.buffered_frame[20:22]
+        return "".join(self.buffered_frame[20:22])+ "\n"
     
     def getTTl(self):
-        return self.buffered_frame[22]
+        return self.buffered_frame[22]+ "\n"
     
     def getProtocol(self):
-        return ipdict.IPdic(int(self.buffered_frame[23]))
+        return ipdict(int(self.buffered_frame[23])).IPdic() + "\n"
     
     def getPorts(self):
-        return "Source Port: "+ int(self.buffered_frame[32:34]) + "Destination Port: " + int(self.buffered_frame[36:38])
+        return "Source Port: "+ str(int("".join(self.buffered_frame[32:34]),16)) + "Destination Port: " + str(int("".join(self.buffered_frame[36:38]),16)) + "\n"
 
 
 

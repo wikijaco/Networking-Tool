@@ -15,7 +15,7 @@ Usage:
     Every module and dependency should be installed automatically by SystemIncluder.py, 
     TO ENABLE THE PACKET SNIFFING FEATURE WINPCAP/NPCAP MUST BE INSTALLED.
 
-    Written in Python 3.9
+    Written in Python 3.9, but Ipv4 unpacking needs 3.10
 
 Project Modularity:
     THis Project is developed across 3 main files:
