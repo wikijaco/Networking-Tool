@@ -155,7 +155,7 @@ class frame:
                
             except KeyError:
                retStr += "\nFrame.Type = Eth2 " #runs if ethertype is not in dict
-               retStr += "\nEtherType = "+ Etype+ " Unknown EthType"
+               retStr += "\nEtherType = "+ str(Etype)+ " Unknown EthType"
             return retStr
         else: 
             length = self.getEthType() #type/len is len
@@ -174,7 +174,7 @@ class frame:
 
                 
                 retStr += "Frame is of Len:" + length #adds length 
-                return retStr
+                return retStr + "\n"
     
     
     '''
@@ -199,13 +199,13 @@ class frame:
             retStr += "Macaddr.dst: " + self.printMac(self.getDestMac())
             retStr += "\nMacaddr.src: " + self.printMac(self.getSrcMac())
             retStr += self.decodeLLC()
-            retStr += "Flags: "+self.getFlg()
+            retStr += "\nFlags: "+self.getFlg()
             retStr += "Fragment Offset: "+self.getOffset()
             retStr += self.getIPvLen()
             retStr += "Protocol: "+ self.getProtocol()
             retStr += "TTL: "+ self.getTTl()
-            retStr += "ID" + self.getID()
-            retStr += "Ports: " + self.getPorts()
+            retStr += "ID: " + self.getID()
+            retStr +=  self.getPorts()
             retStr += "\nTotal Size:  " + str(self.checkFrameLen())
         #except TypeError or IndexError:
         #    return "Not a valid packet!"
@@ -356,6 +356,7 @@ class frame:
                 case "00":
                      return "No flag set\n"
                 
+                
 
     def getIPvLen(self):
         byte = int(self.buffered_frame[14])
@@ -373,13 +374,13 @@ class frame:
         return "".join(self.buffered_frame[20:22])+ "\n"
     
     def getTTl(self):
-        return self.buffered_frame[22]+ "\n"
+        return str(int(self.buffered_frame[22],16))+ "\n"
     
     def getProtocol(self):
-        return ipdict(int(self.buffered_frame[23])).IPdic() + "\n"
+        return ipdict(int(self.buffered_frame[23],16)).IPdic() + "\n"
     
     def getPorts(self):
-        return "Source Port: "+ str(int("".join(self.buffered_frame[32:34]),16)) + "Destination Port: " + str(int("".join(self.buffered_frame[36:38]),16)) + "\n"
+        return "Source Port: "+ str(int("".join(self.buffered_frame[32:34]),16)) + " Destination Port: " + str(int("".join(self.buffered_frame[36:38]),16)) 
 
 
 

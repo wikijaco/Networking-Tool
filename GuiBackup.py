@@ -24,7 +24,7 @@ class GUI(Frame):
         self.frame_input = Entry(width = 60)
         self.packetTextbox = Text(height = 12)
         self.packetTextbox.grid(row=0, column = 1, padx = 10)
-        self.resultTextbox = Text(height = 12)
+        self.resultTextbox = Text(height = 15)
         self.resultTextbox.grid(row=1, column = 1, padx = 10) 
 
 
